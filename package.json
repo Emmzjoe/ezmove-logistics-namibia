@@ -1,0 +1,29 @@
+{
+  "name": "ezmove-logistics",
+  "version": "1.0.0",
+  "description": "E-Hailing Logistics Platform for Namibia - Similar to inDrive/Yango but for goods delivery",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx http-server -p 8000 -o",
+    "dev": "npx http-server -p 8000 -o -c-1"
+  },
+  "keywords": [
+    "logistics",
+    "e-hailing",
+    "namibia",
+    "delivery",
+    "transport",
+    "react",
+    "tailwind"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/ezmove-logistics.git"
+  },
+  "homepage": "https://github.com/yourusername/ezmove-logistics#readme"
+}
