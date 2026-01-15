@@ -1,5 +1,6 @@
 const { Job, User, DriverProfile } = require('../models');
 const pricingService = require('../services/pricingService');
+const notificationService = require('../services/notificationService');
 const { Op } = require('sequelize');
 
 class JobController {
@@ -76,6 +77,9 @@ class JobController {
         status: 'pending',
         payment_status: 'pending'
       });
+
+      // Send notification asynchronously
+      notificationService.notifyJobCreated(job.id).catch(console.error);
 
       res.status(201).json({
         success: true,
