@@ -7,9 +7,23 @@ require('dotenv').config();
 
 const sequelize = require('./config/database');
 const authRoutes = require('./routes/authRoutes');
+const jobRoutes = require('./routes/jobRoutes');
+const trackingRoutes = require('./routes/trackingRoutes');
 
 const app = express();
+const http = require('http');
+const server = http.createServer(app);
+const { Server } = require('socket.io');
 const PORT = process.env.PORT || 3001;
+
+// Socket.IO setup
+const io = new Server(server, {
+  cors: {
+    origin: process.env.FRONTEND_URL || 'http://localhost:8001',
+    methods: ['GET', 'POST'],
+    credentials: true
+  }
+});
 
 // Security middleware
 app.use(helmet());
@@ -47,8 +61,19 @@ app.get('/health', (req, res) => {
   });
 });
 
+// Initialize tracking service with Socket.IO
+const TrackingService = require('./services/trackingService');
+const trackingService = new TrackingService(io);
+trackingService.initialize();
+
+// Pass tracking service to controller
+const trackingController = require('./controllers/trackingController');
+trackingController.setTrackingService(trackingService);
+
 // API routes
 app.use('/api/auth', authRoutes);
+app.use('/api/jobs', jobRoutes);
+app.use('/api/tracking', trackingRoutes);
 
 // 404 handler
 app.use((req, res) => {
@@ -82,16 +107,31 @@ const startServer = async () => {
     }
 
     // Start server
-    app.listen(PORT, () => {
+    server.listen(PORT, () => {
       console.log(`🚀 Server running on port ${PORT}`);
       console.log(`📝 Environment: ${process.env.NODE_ENV}`);
       console.log(`🌐 Frontend URL: ${process.env.FRONTEND_URL}`);
-      console.log(`\n📡 API Endpoints:`);
+      console.log(`\n📡 HTTP API Endpoints:`);
       console.log(`   POST /api/auth/register/client`);
       console.log(`   POST /api/auth/register/driver`);
       console.log(`   POST /api/auth/login`);
       console.log(`   POST /api/auth/refresh`);
       console.log(`   GET  /api/auth/me (protected)`);
+      console.log(`   POST /api/jobs (create job)`);
+      console.log(`   GET  /api/jobs (list jobs)`);
+      console.log(`   GET  /api/jobs/:id (get job)`);
+      console.log(`   POST /api/jobs/:id/accept (driver accepts)`);
+      console.log(`   POST /api/jobs/:id/start (driver starts)`);
+      console.log(`   POST /api/jobs/:id/complete (driver completes)`);
+      console.log(`   POST /api/jobs/:id/cancel (cancel job)`);
+      console.log(`   POST /api/jobs/:id/rate (rate job)`);
+      console.log(`   GET  /api/tracking/job/:id/history`);
+      console.log(`   GET  /api/tracking/driver/:id/location`);
+      console.log(`   GET  /api/tracking/calculate-eta`);
+      console.log(`\n🔌 WebSocket Events:`);
+      console.log(`   driver:location - Driver sends location update`);
+      console.log(`   job:track - Subscribe to job tracking`);
+      console.log(`   driver:location:update - Receive location updates`);
     });
   } catch (error) {
     console.error('❌ Unable to start server:', error);
