@@ -387,7 +387,7 @@ function EHailLogisticsApp() {
 
 function LandingPage({ onSelectType }) {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-orange-950 relative overflow-hidden">
+    <div className="min-h-screen bg-gray-100 relative overflow-hidden">
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-orange-500/10 rounded-full blur-3xl"></div>
