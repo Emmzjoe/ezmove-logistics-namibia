@@ -11,6 +11,8 @@ const jobRoutes = require('./routes/jobRoutes');
 const trackingRoutes = require('./routes/trackingRoutes');
 const paymentRoutes = require('./routes/paymentRoutes');
 const notificationRoutes = require('./routes/notificationRoutes');
+const verificationRoutes = require('./routes/verificationRoutes');
+const adminRoutes = require('./routes/adminRoutes');
 
 const app = express();
 const http = require('http');
@@ -78,6 +80,8 @@ app.use('/api/jobs', jobRoutes);
 app.use('/api/tracking', trackingRoutes);
 app.use('/api/payments', paymentRoutes);
 app.use('/api/notifications', notificationRoutes);
+app.use('/api/verification', verificationRoutes);
+app.use('/api/admin', adminRoutes);
 
 // 404 handler
 app.use((req, res) => {
@@ -110,6 +114,11 @@ const startServer = async () => {
       console.log('✅ Database models synchronized');
     }
 
+    // Initialize upload directory for verification documents
+    const verificationService = require('./services/verificationService');
+    await verificationService.initializeUploadDirectory();
+    console.log('✅ Upload directory initialized');
+
     // Start server
     server.listen(PORT, () => {
       console.log(`🚀 Server running on port ${PORT}`);
@@ -132,6 +141,21 @@ const startServer = async () => {
       console.log(`   GET  /api/tracking/job/:id/history`);
       console.log(`   GET  /api/tracking/driver/:id/location`);
       console.log(`   GET  /api/tracking/calculate-eta`);
+      console.log(`   POST /api/verification/upload (upload documents)`);
+      console.log(`   GET  /api/verification/status (get verification status)`);
+      console.log(`   GET  /api/verification/pending (admin - list pending)`);
+      console.log(`   POST /api/verification/approve/:id (admin - approve)`);
+      console.log(`   POST /api/verification/reject/:id (admin - reject)`);
+      console.log(`   GET  /api/verification/check-expiry (admin - check expiry)`);
+      console.log(`   GET  /api/admin/users (admin - list users)`);
+      console.log(`   GET  /api/admin/users/:id (admin - user details)`);
+      console.log(`   POST /api/admin/users/:id/suspend (admin - suspend user)`);
+      console.log(`   POST /api/admin/users/:id/activate (admin - activate user)`);
+      console.log(`   GET  /api/admin/jobs (admin - list all jobs)`);
+      console.log(`   POST /api/admin/jobs/:id/cancel (admin - cancel job)`);
+      console.log(`   GET  /api/admin/dashboard/stats (admin - dashboard stats)`);
+      console.log(`   GET  /api/admin/transactions (admin - list transactions)`);
+      console.log(`   GET  /api/admin/system/health (admin - system health)`);
       console.log(`\n🔌 WebSocket Events:`);
       console.log(`   driver:location - Driver sends location update`);
       console.log(`   job:track - Subscribe to job tracking`);
