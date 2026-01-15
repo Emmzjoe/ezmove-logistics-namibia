@@ -9,6 +9,7 @@ const sequelize = require('./config/database');
 const authRoutes = require('./routes/authRoutes');
 const jobRoutes = require('./routes/jobRoutes');
 const trackingRoutes = require('./routes/trackingRoutes');
+const paymentRoutes = require('./routes/paymentRoutes');
 
 const app = express();
 const http = require('http');
@@ -74,6 +75,7 @@ trackingController.setTrackingService(trackingService);
 app.use('/api/auth', authRoutes);
 app.use('/api/jobs', jobRoutes);
 app.use('/api/tracking', trackingRoutes);
+app.use('/api/payments', paymentRoutes);
 
 // 404 handler
 app.use((req, res) => {
