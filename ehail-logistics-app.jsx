@@ -372,7 +372,9 @@ function EHailLogisticsApp() {
       const ClientAuthComponent = window.ClientAuth || ClientAuth_OLD;
       return <ClientAuthComponent onLogin={handleClientLogin} onBack={() => setUserType(null)} />;
     }
-    return <ClientApp jobs={jobs} setJobs={setJobs} drivers={drivers} currentUser={currentUser} onLogout={handleLogout} />;
+    // Use API-integrated ClientApp if available, otherwise fallback to local
+    const ClientAppComponent = window.ClientAppAPI || ClientApp;
+    return <ClientAppComponent jobs={jobs} setJobs={setJobs} drivers={drivers} currentUser={currentUser} onLogout={handleLogout} />;
   }
 
   if (userType === 'driver') {
@@ -381,7 +383,9 @@ function EHailLogisticsApp() {
       const DriverAuthComponent = window.DriverAuth || DriverAuth_OLD;
       return <DriverAuthComponent onLogin={handleDriverLogin} onBack={() => setUserType(null)} />;
     }
-    return <DriverApp jobs={jobs} setJobs={setJobs} currentUser={currentUser} setCurrentUser={setCurrentUser} onLogout={handleLogout} />;
+    // Use API-integrated DriverApp if available, otherwise fallback to local
+    const DriverAppComponent = window.DriverAppAPI || DriverApp;
+    return <DriverAppComponent jobs={jobs} setJobs={setJobs} currentUser={currentUser} setCurrentUser={setCurrentUser} onLogout={handleLogout} />;
   }
 
   return null;
