@@ -368,14 +368,18 @@ function EHailLogisticsApp() {
 
   if (userType === 'client') {
     if (!currentUser) {
-      return <ClientAuth onLogin={handleClientLogin} onBack={() => setUserType(null)} />;
+      // Use API-integrated auth if available, otherwise fallback to local
+      const ClientAuthComponent = window.ClientAuth || ClientAuth_OLD;
+      return <ClientAuthComponent onLogin={handleClientLogin} onBack={() => setUserType(null)} />;
     }
     return <ClientApp jobs={jobs} setJobs={setJobs} drivers={drivers} currentUser={currentUser} onLogout={handleLogout} />;
   }
 
   if (userType === 'driver') {
     if (!currentUser) {
-      return <DriverAuth onLogin={handleDriverLogin} onBack={() => setUserType(null)} />;
+      // Use API-integrated auth if available, otherwise fallback to local
+      const DriverAuthComponent = window.DriverAuth || DriverAuth_OLD;
+      return <DriverAuthComponent onLogin={handleDriverLogin} onBack={() => setUserType(null)} />;
     }
     return <DriverApp jobs={jobs} setJobs={setJobs} currentUser={currentUser} setCurrentUser={setCurrentUser} onLogout={handleLogout} />;
   }
@@ -635,7 +639,9 @@ function LandingPage({ onSelectType }) {
 
 // ==================== CLIENT AUTHENTICATION ====================
 
-function ClientAuth({ onLogin, onBack }) {
+// NOTE: This function is replaced by the API-integrated version in auth-integration.jsx
+// Keeping this as fallback for compatibility
+function ClientAuth_OLD({ onLogin, onBack }) {
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({
     name: '',
@@ -1672,7 +1678,9 @@ function DriverApp({ jobs, setJobs, currentUser, setCurrentUser, onLogout }) {
 
 // ==================== DRIVER AUTHENTICATION ====================
 
-function DriverAuth({ onLogin, onBack }) {
+// NOTE: This function is replaced by the API-integrated version in auth-integration.jsx
+// Keeping this as fallback for compatibility
+function DriverAuth_OLD({ onLogin, onBack }) {
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({
     name: '',
