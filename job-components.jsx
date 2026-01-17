@@ -9,30 +9,13 @@ function NewJobFormAPI({ onSuccess, onCancel }) {
   const [submitting, setSubmitting] = useState(false);
   const [apiError, setApiError] = useState(null);
 
-  const handleSubmit = async (localJob) => {
+  const handleSubmit = async (jobData) => {
     setSubmitting(true);
     setApiError(null);
 
     try {
-      // Transform local job format to API format
-      const apiJobData = {
-        pickup: {
-          address: localJob.origin,
-          location: { lat: -22.5609, lng: 17.0658 } // TODO: Get actual coordinates
-        },
-        delivery: {
-          address: localJob.destination,
-          location: { lat: -22.5709, lng: 17.0758 } // TODO: Get actual coordinates
-        },
-        loadType: localJob.loadType,
-        loadWeight: localJob.weight || '0 kg',
-        loadDimensions: localJob.volume || 'Not specified',
-        vehicleType: localJob.vehicleType,
-        specialInstructions: localJob.instructions || '',
-        scheduledPickup: null
-      };
-
-      const result = await createJob(apiJobData);
+      // Job data is already in the correct format from EnhancedJobForm
+      const result = await createJob(jobData);
 
       if (result.success) {
         onSuccess(result.job);
@@ -46,7 +29,7 @@ function NewJobFormAPI({ onSuccess, onCancel }) {
     }
   };
 
-  // Use the existing NewJobForm component but wrap the onSubmit
+  // Use the EnhancedJobForm with Maps integration
   return (
     <div>
       {(apiError || error) && (
@@ -57,10 +40,9 @@ function NewJobFormAPI({ onSuccess, onCancel }) {
         </div>
       )}
 
-      {/* Render the original NewJobForm */}
-      {typeof window.NewJobForm !== 'undefined' ? (
-        <window.NewJobForm
-          drivers={[]} // Not needed for API version
+      {/* Use enhanced form with maps if available, otherwise fallback */}
+      {typeof window.EnhancedJobForm !== 'undefined' ? (
+        <window.EnhancedJobForm
           onSubmit={handleSubmit}
           onCancel={onCancel}
         />

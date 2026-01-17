@@ -13,6 +13,8 @@ function DriverAppAPI({ onLogout }) {
   const [currentView, setCurrentView] = useState('available');
   const [selectedJob, setSelectedJob] = useState(null);
   const [actionError, setActionError] = useState(null);
+  const [showCompletionModal, setShowCompletionModal] = useState(false);
+  const [jobToComplete, setJobToComplete] = useState(null);
 
   // Get driver profile from current user
   const driverProfile = currentUser.driverProfile || {};
@@ -59,16 +61,23 @@ function DriverAppAPI({ onLogout }) {
     }
   };
 
-  const handleCompleteJob = async (jobId) => {
+  const handleCompleteJob = async (jobId, deliveryProof) => {
     setActionError(null);
-    const result = await completeJob(jobId, 'Delivered successfully');
+    const result = await completeJob(jobId, deliveryProof);
 
     if (result.success) {
+      setShowCompletionModal(false);
+      setJobToComplete(null);
       refetch();
       stopSharing(); // Stop sharing location when job is completed
     } else {
       setActionError(result.error);
     }
+  };
+
+  const openCompletionModal = (job) => {
+    setJobToComplete(job);
+    setShowCompletionModal(true);
   };
 
   if (loading) {
@@ -331,11 +340,11 @@ function DriverAppAPI({ onLogout }) {
                         )}
                         {job.status === 'in_progress' && (
                           <button
-                            onClick={() => handleCompleteJob(job.id)}
+                            onClick={() => openCompletionModal(job)}
                             disabled={processing}
                             className="bg-green-500 text-white px-6 py-2 rounded-lg font-medium hover:bg-green-600 transition-colors disabled:opacity-50"
                           >
-                            {processing ? 'Completing...' : 'Complete Delivery'}
+                            Complete Delivery
                           </button>
                         )}
                       </div>
@@ -427,6 +436,19 @@ function DriverAppAPI({ onLogout }) {
             </div>
           </div>
         </div>
+      )}
+
+      {/* Completion Modal with Photo Proof */}
+      {showCompletionModal && jobToComplete && window.JobCompletionModal && (
+        <window.JobCompletionModal
+          job={jobToComplete}
+          onComplete={handleCompleteJob}
+          onCancel={() => {
+            setShowCompletionModal(false);
+            setJobToComplete(null);
+          }}
+          processing={processing}
+        />
       )}
     </div>
   );
