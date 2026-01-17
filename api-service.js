@@ -1,7 +1,12 @@
 // ==================== API SERVICE LAYER ====================
 // This module handles all backend API communication
 
-const API_BASE_URL = 'http://localhost:3001/api';
+// Get API URL from centralized config
+const getApiBaseUrl = () => {
+  return window.AppConfig ? window.AppConfig.API_URL : 'http://localhost:3001/api';
+};
+
+const API_BASE_URL = getApiBaseUrl();
 
 // Token management
 const TokenManager = {

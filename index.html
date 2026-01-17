@@ -4,6 +4,60 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>EZMove - E-Hailing Logistics Platform</title>
+
+  <!-- PWA Meta Tags -->
+  <meta name="application-name" content="EZMove">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="EZMove">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#f97316">
+
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="/manifest.json">
+
+  <!-- Apple Touch Icons -->
+  <link rel="apple-touch-icon" sizes="152x152" href="/icons/icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192x192.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-72x72.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-72x72.png">
+
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="EZMove - Namibia's premier on-demand logistics platform. Book delivery jobs, track drivers in real-time, and get instant pricing. Fast, reliable, and affordable delivery services.">
+  <meta name="keywords" content="namibia logistics, delivery service, on-demand delivery, truck hire, windhoek delivery, freight namibia, cargo transport, e-hailing logistics">
+  <meta name="author" content="EZMove">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://ezmove.na/">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://ezmove.na/">
+  <meta property="og:title" content="EZMove - On-Demand Logistics Platform for Namibia">
+  <meta property="og:description" content="Book delivery jobs, track drivers in real-time, and get instant pricing. Fast, reliable, and affordable delivery services across Namibia.">
+  <meta property="og:image" content="https://ezmove.na/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:site_name" content="EZMove">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://ezmove.na/">
+  <meta name="twitter:title" content="EZMove - On-Demand Logistics Platform for Namibia">
+  <meta name="twitter:description" content="Book delivery jobs, track drivers in real-time, and get instant pricing. Fast, reliable, and affordable delivery services across Namibia.">
+  <meta name="twitter:image" content="https://ezmove.na/twitter-image.jpg">
+  <meta name="twitter:image:alt" content="EZMove - Logistics Platform">
+
+  <!-- Additional SEO Tags -->
+  <meta name="geo.region" content="NA">
+  <meta name="geo.placename" content="Windhoek, Namibia">
+  <meta name="geo.position" content="-22.5609;17.0658">
+  <meta name="ICBM" content="-22.5609, 17.0658">
+  <meta name="language" content="English">
+  <meta name="revisit-after" content="7 days">
+  <meta name="rating" content="General">
   <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -11,8 +65,17 @@
   <script src="https://cdn.socket.io/4.8.3/socket.io.min.js"></script>
   <!-- Google Maps API - Replace YOUR_API_KEY with actual key -->
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX&libraries=places&callback=Function.prototype"></script>
+  <!-- Configuration (must load before other services) -->
+  <script src="./config.js"></script>
+  <script src="./validation-schemas.js"></script>
+  <script src="./analytics.js"></script>
+  <script src="./pwa-register.js"></script>
+  <script src="./seo-structured-data.js"></script>
   <script src="./maps-service.js"></script>
   <script src="./api-service.js"></script>
+  <script type="text/babel" src="./toast-notifications.jsx" data-presets="react"></script>
+  <script type="text/babel" src="./loading-components.jsx" data-presets="react"></script>
+  <script type="text/babel" src="./form-components.jsx" data-presets="react"></script>
   <script type="text/babel" src="./auth-integration.jsx" data-presets="react"></script>
   <script type="text/babel" src="./job-integration.jsx" data-presets="react"></script>
   <script type="text/babel" src="./enhanced-features.jsx" data-presets="react"></script>

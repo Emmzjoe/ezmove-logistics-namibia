@@ -244,9 +244,11 @@ function EnhancedJobForm({ onSubmit, onCancel }) {
   const calculatePrice = () => {
     if (!routeInfo) return 0;
 
-    const BASE_PRICE = 50; // NAD
-    const PRICE_PER_KM = 8; // NAD
-    const PRICE_PER_MIN = 2; // NAD
+    // Use centralized config for pricing
+    const config = window.AppConfig;
+    const BASE_PRICE = config.pricing.BASE_PRICE;
+    const PRICE_PER_KM = config.pricing.PRICE_PER_KM;
+    const PRICE_PER_MIN = config.pricing.PRICE_PER_MIN;
     const multiplier = VEHICLE_TYPES[vehicleType]?.priceMultiplier || 1.0;
 
     const total = (
