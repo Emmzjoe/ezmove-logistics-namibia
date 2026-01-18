@@ -46,10 +46,10 @@ app.get('/', (req, res) => {
   });
 });
 
-// API routes (will add later)
-// app.use('/api/v1/auth', require('./routes/auth.routes'));
-// app.use('/api/v1/jobs', require('./routes/jobs.routes'));
-// app.use('/api/v1/drivers', require('./routes/drivers.routes'));
+// API routes
+app.use('/api/v1/auth', require('./routes/auth'));
+// app.use('/api/v1/jobs', require('./routes/jobs'));
+// app.use('/api/v1/drivers', require('./routes/drivers'));
 
 // 404 handler
 app.use((req, res) => {
